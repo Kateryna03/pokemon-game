@@ -34,9 +34,9 @@
   transform: rotateY(0deg);
 }
 
-/* .pokemonCard.passive {
+.pokemonCard.passive {
   transform: rotateY(-180deg);
-} */
+}
 
 .cardFront,
 .cardBack {
