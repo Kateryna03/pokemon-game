@@ -1,22 +1,25 @@
 //import logo from './logo.svg';
+import { useHistory } from "react-router";
 import PokemonCard from "../../components/PokemonCard/PokemonCard";
 import "../../App.css";
-import MenuHeader from "../../components/MenuHeader/MenuHeader";
+// import MenuHeader from "../../components/MenuHeader/MenuHeader";
 import Header from "../../components/Header/Header";
 import Layout from "../../components/Layout/Layout";
-import Footer from "../../components/Footer/Footer";
+//import Footer from "../../components/Footer/Footer";
 import bg1 from "../../assets/bg1.jpeg";
 import bg3 from "../../assets/bg3.jpeg";
 import POKEMONS from "../../components/PokemonCard/cards.json";
 
 export default function HomePage({ onChangePage }) {
+  const history = useHistory();
   const handleClickButton = (page) => {
-    console.log("HOME PAGE");
-    onChangePage && onChangePage(page);
+    history.push(page);
+    // console.log("HOME PAGE");
+    // onChangePage && onChangePage(page);
   };
   return (
     <>
-      <MenuHeader></MenuHeader>
+      {/* <MenuHeader /> */}
       <Header
         title="Pokemon Game"
         descr="This is simple triple triad card game"
@@ -57,7 +60,6 @@ export default function HomePage({ onChangePage }) {
           the player's color instead.{" "}
         </p>
       </Layout>
-      <Footer />
     </>
   );
 }

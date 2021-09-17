@@ -1,22 +1,43 @@
+import { NavLink } from "react-router-dom";
 import s from "../Menu/Menu.module.css";
 import cn from "classnames";
-const Menu = ({ isActive }) => {
-  //   const handleClickButton = () => {
-  //     onHandleClick && onHandleClick();
-  //   };
+const MENU = [
+  {
+    title: "HOME",
+    to: "home",
+  },
+  {
+    title: "GAME",
+    to: "game",
+  },
+  {
+    title: "ABOUT",
+    to: "about",
+  },
+  {
+    title: "CONTACT",
+    to: "contact",
+  },
+];
+const Menu = ({ isActive, onHandleClick }) => {
   return (
     <div
-      //   onClick={handleClickButton}
-      className={cn(
-        s.menuContainer,
-        { [s.active]: isActive },
-        { [s.deactive]: !isActive }
-      )}
+      className={cn(s.menuContainer, {
+        [s.active]: isActive === true,
+        [s.deactive]: !isActive === false,
+      })}
     >
       <div className={s.overlay} />
       <div className={s.menuItems}>
         <ul>
-          <li>
+          {MENU.map(({ title, to }, index) => (
+            <li key={index}>
+              <NavLink to={to} onClick={onHandleClick}>
+                {title}
+              </NavLink>
+            </li>
+          ))}
+          {/* <li>
             <a href="#welcome">HOME</a>
           </li>
           <li>
@@ -27,7 +48,7 @@ const Menu = ({ isActive }) => {
           </li>
           <li>
             <a href="#contact">CONTACT</a>
-          </li>
+          </li> */}
         </ul>
       </div>
     </div>
