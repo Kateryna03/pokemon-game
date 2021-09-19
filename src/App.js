@@ -1,6 +1,6 @@
 //import { useState } from "react";
 import { Route, Switch, useRouteMatch, Redirect } from "react-router-dom";
-import database from "./components/servise/firebase";
+//import database from "./components/servise/firebase";
 import Footer from "./components/Footer/Footer";
 import MenuHeader from "./components/MenuHeader/MenuHeader";
 import GamePage from "./routes/Game";

@@ -40,8 +40,9 @@ const GamePage = () => {
   };
 
   const handleAddPokemons = () => {
+    const randomPokemon = Math.floor(Math.random() * POKEMONS.length);
     const newKey = database.ref().child("pokemons").push().key;
-    database.ref("pokemons/" + newKey).set(POKEMONS[3]);
+    database.ref("pokemons/" + newKey).set(POKEMONS[randomPokemon]);
   };
   const handleClick = () => {
     history.push("/");
