@@ -1,5 +1,6 @@
 //import { useState } from "react";
 import { Route, Switch, useRouteMatch, Redirect } from "react-router-dom";
+import database from "./components/servise/firebase";
 import Footer from "./components/Footer/Footer";
 import MenuHeader from "./components/MenuHeader/MenuHeader";
 import GamePage from "./routes/Game";
@@ -26,9 +27,7 @@ export default function App() {
               <Route path="/" exact>
                 <HomePage />
               </Route>
-              <Route path="/home">
-                <HomePage />
-              </Route>
+
               <Route path="/game">
                 <GamePage />
               </Route>

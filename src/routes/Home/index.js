@@ -1,6 +1,6 @@
 //import logo from './logo.svg';
 import { useHistory } from "react-router";
-import PokemonCard from "../../components/PokemonCard/PokemonCard";
+//import PokemonCard from "../../components/PokemonCard/PokemonCard";
 import "../../App.css";
 // import MenuHeader from "../../components/MenuHeader/MenuHeader";
 import Header from "../../components/Header/Header";
@@ -8,7 +8,7 @@ import Layout from "../../components/Layout/Layout";
 //import Footer from "../../components/Footer/Footer";
 import bg1 from "../../assets/bg1.jpeg";
 import bg3 from "../../assets/bg3.jpeg";
-import POKEMONS from "../../components/PokemonCard/cards.json";
+//import POKEMONS from "../../components/PokemonCard/cards.json";
 
 export default function HomePage({ onChangePage }) {
   const history = useHistory();
@@ -33,20 +33,7 @@ export default function HomePage({ onChangePage }) {
           turning them into the player's own color of red or blue.
         </p>
       </Layout>
-      <Layout id="cards" title="Cards" colorBg="yellow">
-        <div className="flex">
-          {POKEMONS.map(({ name, img, id, type, values }) => (
-            <PokemonCard
-              key={id}
-              name={name}
-              img={img}
-              id={id}
-              type={type}
-              values={values}
-            />
-          ))}
-        </div>
-      </Layout>
+
       <Layout id="rules" title="Rules" urlBg={bg3}>
         <p>
           To win, a majority of the total ten cards played (including the one
