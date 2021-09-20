@@ -62,7 +62,7 @@ const StartPage = () => {
           }}
         >
           <button
-            onclick={handleStartGameClick}
+            onClick={handleStartGameClick}
             disabled={Object.keys(pokemonsContext.pokemon).length < 5}
           >
             Start GAME

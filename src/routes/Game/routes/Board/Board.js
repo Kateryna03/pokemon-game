@@ -13,15 +13,15 @@ const BoardPage = () => {
       <div className={s.playerOne}></div>
       {Object.values(pokemon).map(({ id, name, values, img, type }) => (
         <PokemonCard
+          className={s.card}
           key={id}
           name={name}
           img={img}
           id={id}
           type={type}
           values={values}
-          isActive
           minimize
-          className={s.card}
+          isActive
         />
       ))}
       <div className={s.board}>
