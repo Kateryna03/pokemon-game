@@ -1,0 +1,22 @@
+.flex {
+  /* display: flex;
+  flex-wrap: wrap; */
+  display: grid;
+  grid-template-columns: auto auto auto auto;
+  grid-gap: 40px;
+  /* отступы между сеткой */
+}
+
+.buttonWrap {
+  text-align: center;
+  padding: 2rem;
+  width: 100%;
+  max-width: 280px;
+  margin-bottom: 30px;
+}
+
+.card {
+  max-width: 250px;
+  height: 340px;
+  cursor: pointer;
+}
