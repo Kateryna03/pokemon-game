@@ -16,17 +16,23 @@ const GamePage = () => {
       //console.log("snapshot", snapshot.val());
       setPokemons(snapshot.val());
     });
-  }, [pokemons]);
+  }, []);
 
-  const handlePokemonChangeIsActive = (id, isActive, objID) => {
+  const handlePokemonChangeIsActive = (id, objID, active) => {
     setPokemons((prevState) => {
       return Object.entries(prevState).reduce((acc, item) => {
         const pokemon = { ...item[1] };
         if (pokemon.id === id) {
-          pokemon.isActive = true;
-          database
-            .ref(`pokemons/${objID}`)
-            .update({ ...pokemons[objID], isActive: !isActive });
+          if (pokemon.active === true) {
+            pokemon.active = !pokemon.active;
+          } else {
+            pokemon.active = true;
+          }
+          setCardStatus(item[0], item[1]);
+          // database.ref("pokemons/" + objID).update({
+          //   ...pokemons[objID],
+          //   active: active,
+          // });
         }
 
         acc[item[0]] = pokemon;
@@ -34,16 +40,25 @@ const GamePage = () => {
         return acc;
       }, {});
     });
-    //console.log("OBJ ID", pokemons[objID]);
+  };
 
-    //console.log("CLICK ON POKEMON");
+  const setCardStatus = (objID, pokemon) => {
+    database.ref(`pokemons/${objID}`).set(pokemon);
   };
 
   const handleAddPokemons = () => {
     const randomPokemon = Math.floor(Math.random() * POKEMONS.length);
     const newKey = database.ref().child("pokemons").push().key;
-    database.ref("pokemons/" + newKey).set(POKEMONS[randomPokemon]);
+    database
+      .ref("pokemons/" + newKey)
+      .set(POKEMONS[randomPokemon])
+      .then(() => {
+        database.ref("pokemons").once("value", (snapshot) => {
+          setPokemons(snapshot.val());
+        });
+      });
   };
+
   const handleClick = () => {
     history.push("/");
   };
@@ -65,7 +80,7 @@ const GamePage = () => {
 
         <div className="flex">
           {Object.entries(pokemons).map(
-            ([key, { name, img, id, type, values, isActive }]) => (
+            ([key, { name, img, id, type, values, active }]) => (
               <PokemonCard
                 key={key}
                 name={name}
@@ -74,7 +89,7 @@ const GamePage = () => {
                 type={type}
                 values={values}
                 onChangeisActive={handlePokemonChangeIsActive}
-                isActive={true}
+                isActive={active}
                 objID={key}
               />
             )
