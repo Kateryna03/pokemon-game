@@ -23,16 +23,14 @@ const GamePage = () => {
       return Object.entries(prevState).reduce((acc, item) => {
         const pokemon = { ...item[1] };
         if (pokemon.id === id) {
-          if (pokemon.active === true) {
-            pokemon.active = !pokemon.active;
-          } else {
-            pokemon.active = true;
-          }
-          setCardStatus(item[0], item[1]);
-          // database.ref("pokemons/" + objID).update({
-          //   ...pokemons[objID],
-          //   active: active,
-          // });
+          // if (pokemon.active === true) {
+          //   pokemon.active = !pokemon.active;
+          // } else {
+          //   pokemon.active = true;
+          // }
+          // setCardStatus(item[0], item[1]);
+          pokemon.active = !pokemon.active;
+          database.ref("pokemons/" + objID).set(pokemon);
         }
 
         acc[item[0]] = pokemon;
@@ -42,9 +40,9 @@ const GamePage = () => {
     });
   };
 
-  const setCardStatus = (objID, pokemon) => {
-    database.ref(`pokemons/${objID}`).set(pokemon);
-  };
+  // const setCardStatus = (objID, pokemon) => {
+  //   database.ref(`pokemons/${objID}`).set(pokemon);
+  // };
 
   const handleAddPokemons = () => {
     const randomPokemon = Math.floor(Math.random() * POKEMONS.length);
