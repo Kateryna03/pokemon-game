@@ -1,11 +1,5 @@
 //import { useState } from "react";
-import {
-  useLocation,
-  Route,
-  Switch,
-  useRouteMatch,
-  Redirect,
-} from "react-router-dom";
+import { useLocation, Route, Switch, Redirect } from "react-router-dom";
 import Footer from "./components/Footer/Footer";
 import MenuHeader from "./components/MenuHeader/MenuHeader";
 import GamePage from "./routes/Game";
@@ -28,7 +22,7 @@ export default function App() {
     <FirebaseContext.Provider value={new Firebase()}>
       <Switch>
         <Route path="/404">
-          <NotFoundPage />{" "}
+          <NotFoundPage />
         </Route>
         <Route>
           <>
