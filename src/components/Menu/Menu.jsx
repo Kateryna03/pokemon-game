@@ -4,19 +4,19 @@ import cn from "classnames";
 const MENU = [
   {
     title: "HOME",
-    to: "home",
+    to: "/",
   },
   {
     title: "GAME",
-    to: "game",
+    to: "/game",
   },
   {
     title: "ABOUT",
-    to: "about",
+    to: "/about",
   },
   {
     title: "CONTACT",
-    to: "contact",
+    to: "/contact",
   },
 ];
 const Menu = ({ isActive, onHandleClick }) => {
