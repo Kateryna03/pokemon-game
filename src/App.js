@@ -22,8 +22,8 @@ export default function App() {
   const location = useLocation();
   const isPadding =
     location.pathname === "/" || location.pathname === "/game/board";
-  const match = useRouteMatch("/");
-  console.log("match", match);
+  // const match = useRouteMatch("/");
+  // console.log("match", match);
   return (
     <FirebaseContext.Provider value={new Firebase()}>
       <Switch>
