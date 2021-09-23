@@ -8,8 +8,19 @@ import { useState } from "react";
 const GamePage = () => {
   const match = useRouteMatch();
   const [selectedPokemon, setSelectedPokemon] = useState({});
+
+  const [player2Pok, setPlayer2Pok] = useState([]);
   console.log("SElectedPokemon", selectedPokemon);
 
+  const handlePlayer2Pok = (pokemon) => {
+    setPlayer2Pok((prevState) => {
+      return [...prevState, ...pokemon];
+    });
+  };
+  console.log("Player2pok", player2Pok);
+  const handleClearContext = () => {
+    setPlayer2Pok([]);
+  };
   const handleSelectedPokemons = (key, pokemon) => {
     setSelectedPokemon((prevState) => {
       if (prevState[key]) {
@@ -28,6 +39,9 @@ const GamePage = () => {
       value={{
         pokemon: selectedPokemon,
         onSelectedPokemon: handleSelectedPokemons,
+        player2Pokemons: player2Pok,
+        pushPlayer2Pok: handlePlayer2Pok,
+        onClearContext: handleClearContext,
       }}
     >
       <Switch>
