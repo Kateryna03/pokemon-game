@@ -118,12 +118,16 @@ const BoardPage = () => {
 
       if (count1 > count2) {
         alert("WIN");
+        context.setWinner("player1");
+
         history.replace("/game/finish");
       } else if (count2 > count1) {
         alert("LOSE");
+        context.setWinner("player2");
         history.replace("/game/finish");
       } else {
         alert("DRAW");
+        context.setWinner();
         history.replace("/game/finish");
       }
     }

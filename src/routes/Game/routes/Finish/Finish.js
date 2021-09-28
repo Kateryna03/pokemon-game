@@ -39,13 +39,13 @@ const FinishPage = () => {
   //   setPlayer2Pok(newState);
   // };
 
-  const handleClickEndButton = async () => {
+  const handleClickEndButton = () => {
     //await firebase.addPokemon(choiseCard);
     //PokemonContext.clearContext()
-    await firebase.addPokemon(winner);
+    history.replace("/game");
+    firebase.addPokemon(winner);
     setTheWinner({});
     context.onClearContext();
-    history.replace("/game");
   };
 
   const addWonPokemon = (item) => {
