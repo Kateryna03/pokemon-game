@@ -1,5 +1,5 @@
-import { useHistory } from "react-router";
-import { useContext, useEffect } from "react";
+import { useHistory } from "react-router-dom";
+import { useContext, useState } from "react";
 
 import { PokemonContext } from "../../../../context/PokemonContext";
 import { FirebaseContext } from "../../../../context/FirebaseContext";
@@ -7,25 +7,50 @@ import { FirebaseContext } from "../../../../context/FirebaseContext";
 import PokemonCard from "../../../../components/PokemonCard/PokemonCard";
 
 import s from "./Finish.module.css";
-import { useState } from "react/cjs/react.development";
-import PlayerBoard from "../../routes/Board/component/PlayerBoard/PlayerBoard";
+//import PlayerBoard from "../../routes/Board/component/PlayerBoard/PlayerBoard";
 
 const FinishPage = () => {
-  const { pokemon } = useContext(PokemonContext);
+  //const { pokemon } = useContext(PokemonContext);
+  // const { player1Pokemons, player2Pokemons, setPlayer2Pok, onClearContext } =
+  //useContext(PokemonContext);
   const context = useContext(PokemonContext);
   const firebase = useContext(FirebaseContext);
+  const [winner, setTheWinner] = useState({});
+  //const [choiseCard, setChoiseCard] = useState({});
 
-  console.log("POKEMON", Object.keys(pokemon).length);
-
-  const [choiseCard, setChoiseCard] = useState(null);
-
-  console.log("pokCONTEXT", pokemon);
+  //console.log("pokCONTEXT", pokemon);
   const history = useHistory();
 
-  const handleClickEndButton = () => {
+  //const isPlayer1Lost = player1Pokemons.length < context.player2Pokemons.length;
+
+  // const handleCardClick = (id) => {
+  //if (isPlayer1Lost) return;
+
+  //   const newState = [...context.player2Pokemons].map((item) => {
+  //     delete item.selected;
+  //     delete item.possession;
+  //     if (item.id === id) {
+  //       setChoiseCard(item);
+  //       return { ...item, selected: true };
+  //     }
+  //     return item;
+  //   });
+
+  //   setPlayer2Pok(newState);
+  // };
+
+  const handleClickEndButton = async () => {
+    //await firebase.addPokemon(choiseCard);
     //PokemonContext.clearContext()
+    await firebase.addPokemon(winner);
+    setTheWinner({});
     context.onClearContext();
-    history.push("/game");
+    history.replace("/game");
+  };
+
+  const addWonPokemon = (item) => {
+    item.isSelected = !item.isSelected;
+    return setTheWinner({ ...item });
   };
 
   return (
@@ -33,7 +58,7 @@ const FinishPage = () => {
       <h1>Finish...</h1>
       <div className={s.root}>
         <div className={s.playerOne}>
-          {Object.values(pokemon).map((item) => (
+          {Object.values(context.pokemon).map((item) => (
             // <div
             //   className={cn(s.cardBoard, { [s.selected]: isSelected === item.id })}
             //   onClick={() => {
@@ -49,8 +74,10 @@ const FinishPage = () => {
               id={item.id}
               type={item.type}
               values={item.values}
+              possession={item.possession}
               minimize
               isActive
+              //isSelected={item.selected}
             />
           ))}
         </div>
@@ -66,7 +93,7 @@ const FinishPage = () => {
         </div>
 
         <div className={s.playerTwo}>
-          {context.player2Pokemons.map((item) => (
+          {Object.values(context.player2Pokemons).map((item) => (
             // <div
             //   className={cn(s.cardBoard, { [s.selected]: isSelected === item.id })}
             //   onClick={() => {
@@ -84,7 +111,14 @@ const FinishPage = () => {
               values={item.values}
               minimize
               isActive
-              isSelected={choiseCard && choiseCard.id === item.id}
+              isSelected={item.selected}
+              possession={item.possession}
+              onClickCard={() => {
+                if (context.winner === "player1") {
+                  addWonPokemon(item);
+                  console.log(item.isSelected);
+                }
+              }}
             />
           ))}
         </div>

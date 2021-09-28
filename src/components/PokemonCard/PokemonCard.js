@@ -15,9 +15,12 @@ const PokemonCard = ({
   className,
   isSelected,
   possession,
+  onClickCard,
+  //key
 }) => {
   const handleOnClick = () => {
     onChangeisActive && onChangeisActive(objID);
+    onClickCard && onClickCard(id);
   };
   // function handleOnClick() {
   //   return setActive(!isActive);
