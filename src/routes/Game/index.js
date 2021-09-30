@@ -52,10 +52,10 @@ const GamePage = () => {
   return (
     <PokemonContext.Provider
       value={{
-        pokemon: selectedPokemon,
+        //pokemon: selectedPokemon,
         player2Pokemons: player2Pok,
 
-        onSelectedPokemon: handleSelectedPokemons,
+        //onSelectedPokemon: handleSelectedPokemons,
         pushPlayer2Pok: handlePlayer2Pok,
 
         onClearContext: handleClearContext,

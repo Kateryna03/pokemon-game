@@ -29,25 +29,25 @@ export const slice = createSlice({
     }),
 
     handleSelectedPokemons: (state, { payload: { key, pokemon } }) => {
-      if (state.selectedPokemons[key]) {
-        const newPokemons = { ...state.selectedPokemons };
-        if (newPokemons[key]) {
-          delete newPokemons[key];
-          return { ...state, selectedPokemons: newPokemons };
-        }
-
-        if (Object.entries(state.selectedPokemons).length < 5) {
-          newPokemons[key] = pokemon;
-          return { ...state, selectedPokemons: newPokemons };
-        }
+      //   if (state.selectedPokemons[key]) {
+      const newPokemons = { ...state.selectedPokemons };
+      if (newPokemons[key]) {
+        delete newPokemons[key];
+        return { ...state, selectedPokemons: newPokemons };
       }
+
+      //   if (Object.entries(state.selectedPokemons).length < 5) {
+      newPokemons[key] = pokemon;
+      return { ...state, selectedPokemons: newPokemons };
+      //   }
+      //}
     },
   },
 });
 
 export const { handleSelectedPokemons } = slice.actions;
 
-export const setSelectedPokemons = () => handleSelectedPokemons();
+//export const setSelectedPokemons = () => handleSelectedPokemons();
 
 export const { fetchPokemons, fetchPokemonsResolve, fetchPokemonsReject } =
   slice.actions;

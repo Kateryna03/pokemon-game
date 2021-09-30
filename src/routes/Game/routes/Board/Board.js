@@ -6,7 +6,9 @@ import PokemonCard from "../../../../components/PokemonCard/PokemonCard";
 import s from "./Board.module.css";
 import { useState } from "react";
 import PlayerBoard from "./component/PlayerBoard/PlayerBoard";
-
+import { useDispatch, useSelector } from "react-redux";
+//import { selectPokemonsIsLoading } from "../../../../components/store/pokemons";
+import { selectedPokemons } from "../../../../components/store/pokemons";
 const counterWin = (board, player1, player2) => {
   let player1Count = player1.length;
   let player2Count = player2.length;
@@ -24,20 +26,20 @@ const counterWin = (board, player1, player2) => {
 };
 
 const BoardPage = () => {
-  //const { pokemon } = useContext(PokemonContext);
   const context = useContext(PokemonContext);
+  const selectedPokemonsRedux = useSelector(selectedPokemons);
+  const dispatch = useDispatch();
+  //const pokemonsRedux = useSelector(selectPokemonsIsLoading);
   //console.log("POKEMON", Object.keys(pokemon).length);
   const [board, setBoard] = useState([]);
   const [player2, setPlayer2] = useState([]);
   const [player1, setPlayer1] = useState(() => {
-    return Object.values(context.pokemon).map((item) => ({
+    return Object.values(selectedPokemonsRedux).map((item) => ({
       ...item,
       possession: "blue",
     }));
   });
   const [choiseCard, setChoiseCard] = useState(null);
-  //console.log(board);
-  //console.log(player2);
   const [steps, setSteps] = useState(0);
 
   //console.log("pokCONTEXT", pokemon);
@@ -68,7 +70,7 @@ const BoardPage = () => {
     fetchData();
   }, []);
 
-  if (Object.keys(context.pokemon).length === 0) {
+  if (Object.keys(selectedPokemonsRedux).length === 0) {
     history.replace("/game");
   }
 
@@ -131,7 +133,7 @@ const BoardPage = () => {
         history.replace("/game/finish");
       }
     }
-  }, [steps]);
+  }, [steps, history]);
 
   return (
     <div className={s.root}>
