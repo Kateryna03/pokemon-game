@@ -7,6 +7,14 @@ import PokemonCard from "../../../../components/PokemonCard/PokemonCard";
 import { FirebaseContext } from "../../../../context/FirebaseContext";
 import s from "./Game.module.css";
 import { PokemonContext } from "../../../../context/PokemonContext";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  getPokemonsAsync,
+  handleSelectedPokemons,
+  selectedPokemons,
+  selectPokemonsData,
+  selectPokemonsIsLoading,
+} from "../../../../components/store/pokemons";
 
 const StartPage = () => {
   const firebase = useContext(FirebaseContext);
@@ -14,20 +22,38 @@ const StartPage = () => {
   const pokemonsContext = useContext(PokemonContext);
   const history = useHistory();
   const [pokemons, setPokemons] = useState({});
+  const isLoadind = useSelector(selectPokemonsIsLoading);
+  const pokemonsRedux = useSelector(selectPokemonsData);
+  const selectedPokemonsRedux = useSelector(selectedPokemons);
+  const dispatch = useDispatch();
+  console.log("#####:pokemonsRedux", pokemonsRedux);
 
   useEffect(() => {
-    firebase.getPokemonSocket((pokemons) => {
-      setPokemons(pokemons);
-    });
+    //pokemonsContext.onSelectedPokemon(null);
+    // pokemonsContext.pushPlayer2Pok([]);
+    dispatch(getPokemonsAsync());
+    // firebase.getPokemonSocket((pokemons) => {
+    //   setPokemons(pokemons);
+    // });
 
-    return () => {
-      firebase.offPokemonSocket();
-    };
+    // return () => {
+    //   firebase.offPokemonSocket();
+    // };
   }, []);
 
+  useEffect(() => {
+    setPokemons(pokemonsRedux);
+  }, [pokemonsRedux]);
+
   const handleChangeSelected = (key) => {
+    // if (
+    //   !pokemons[key]?.selected &&
+    //   Object.keys(selectedPokemonsRedux).length >= 5
+    // )
+    //   return;
     const pokemon = { ...pokemons[key] };
-    pokemonsContext.onSelectedPokemon(key, pokemon);
+    dispatch(handleSelectedPokemons({ key, pokemon }));
+    //pokemonsContext.onSelectedPokemon(key, pokemon);
 
     setPokemons((prevState) => ({
       ...prevState,

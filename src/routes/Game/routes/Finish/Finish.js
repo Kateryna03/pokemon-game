@@ -16,7 +16,6 @@ const FinishPage = () => {
   const context = useContext(PokemonContext);
   const firebase = useContext(FirebaseContext);
   const [winner, setTheWinner] = useState({});
-  //const [choiseCard, setChoiseCard] = useState({});
 
   //console.log("pokCONTEXT", pokemon);
   const history = useHistory();
@@ -40,8 +39,6 @@ const FinishPage = () => {
   // };
 
   const handleClickEndButton = () => {
-    //await firebase.addPokemon(choiseCard);
-    //PokemonContext.clearContext()
     history.replace("/game");
     firebase.addPokemon(winner);
     setTheWinner({});
@@ -94,13 +91,6 @@ const FinishPage = () => {
 
         <div className={s.playerTwo}>
           {Object.values(context.player2Pokemons).map((item) => (
-            // <div
-            //   className={cn(s.cardBoard, { [s.selected]: isSelected === item.id })}
-            //   onClick={() => {
-            //     setSelected(item.id);
-            //     onClickCard && onClickCard({ player, ...item });
-            //   }}
-            // >
             <PokemonCard
               className={s.card}
               key={item.id}
