@@ -8,7 +8,7 @@ import AboutPage from "./routes/About/AboutPage";
 import NotFoundPage from "./routes/NotFound/NotFoundPage";
 import ContactPage from "./routes/Contact/ContactPage";
 import { FirebaseContext } from "./context/FirebaseContext";
-//import Firebase from "./components/servise/firebase";
+
 import s from "./App.module.css";
 import cn from "classnames";
 import FirebaseClass from "./components/servise/firebase";
@@ -53,17 +53,4 @@ export default function App() {
       </Switch>
     </FirebaseContext.Provider>
   );
-  // const [page, setPage] = useState("app");
-  // const handleChangePage = (page) => {
-  //   console.log("MAIN PAGE");
-  //   setPage(page);
-  // };
-  // switch (page) {
-  //   case "app":
-  //     return <HomePage onChangePage={handleChangePage}></HomePage>;
-  //   case "game":
-  //     return <GamePage onChangePage={handleChangePage}></GamePage>;
-  //   default:
-  //     return <HomePage onChangePage={handleChangePage}></HomePage>;
-  // }
 }

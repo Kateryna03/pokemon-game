@@ -1,12 +1,8 @@
 import { useHistory } from "react-router-dom";
 import { useState, useEffect } from "react";
-//import database from "../../components/servise/firebase";
 import Layout from "../../../../components/Layout/Layout";
 import PokemonCard from "../../../../components/PokemonCard/PokemonCard";
-//import POKEMONS from "../../../../components/PokemonCard/cards.json";
-//import { FirebaseContext } from "../../../../context/FirebaseContext";
 import s from "./Game.module.css";
-//import { PokemonContext } from "../../../../context/PokemonContext";
 import { useDispatch, useSelector } from "react-redux";
 import {
   getPokemonsAsync,
@@ -18,8 +14,7 @@ import {
 
 const StartPage = () => {
   //const firebase = useContext(FirebaseContext);
-  //console.log("Firebase", firebase);
-  //const pokemonsContext = useContext(PokemonContext);
+
   const history = useHistory();
   const [pokemons, setPokemons] = useState({});
   const isLoading = useSelector(selectPokemonsIsLoading);
@@ -30,16 +25,8 @@ const StartPage = () => {
   console.log("#####:pokemonsRedux", pokemonsRedux);
 
   useEffect(() => {
-    //pokemonsContext.onSelectedPokemon(null);
     // pokemonsContext.pushPlayer2Pok([]);
     dispatch(getPokemonsAsync());
-    // firebase.getPokemonSocket((pokemons) => {
-    //   setPokemons(pokemons);
-    // });
-
-    // return () => {
-    //   firebase.offPokemonSocket();
-    // };
   }, []);
 
   useEffect(() => {
@@ -47,17 +34,7 @@ const StartPage = () => {
   }, [pokemonsRedux]);
 
   const handleChangeSelected = (key, pokemon) => {
-    //const pokemon = { ...pokemons[key] };
     dispatch(handleSelectedPokemons({ key, pokemon }));
-    //pokemonsContext.onSelectedPokemon(key, pokemon);
-
-    // setPokemons((prevState) => ({
-    //   ...prevState,
-    //   [key]: {
-    //     ...prevState[key],
-    //     selected: !prevState[key].selected,
-    //   },
-    // }));
   };
 
   const handleClick = () => {
@@ -66,14 +43,13 @@ const StartPage = () => {
 
   const handleStartGameClick = () => {
     history.push("/game/board");
-    //console.log("Go to START");
   };
-
+  console.log("Button", Object.keys(selectedPokemonsRedux).length < 5);
+  console.log("!!!selectedPokemonsRedux", selectedPokemonsRedux);
   return (
     <>
       <Layout title="Game Page" colorBg="teal">
         <div
-          //   className={s.buttonWrap}
           style={{
             display: "flex",
             justifyContent: "center",
@@ -83,8 +59,7 @@ const StartPage = () => {
         >
           <button
             onClick={handleStartGameClick}
-            //disabled={Object.keys(pokemonsContext.pokemon).length < 5}
-            disable={Object.keys(selectedPokemonsRedux).length < 5}
+            disabled={Object.keys(selectedPokemonsRedux).length < 5}
           >
             Start GAME
           </button>

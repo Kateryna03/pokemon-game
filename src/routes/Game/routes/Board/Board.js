@@ -2,13 +2,17 @@ import { useHistory } from "react-router";
 import { useContext, useEffect } from "react";
 import { PokemonContext } from "../../../../context/PokemonContext";
 import PokemonCard from "../../../../components/PokemonCard/PokemonCard";
-
+import {
+  handleSetPlayer2,
+  handleSetWinner,
+  selectedPokemons,
+} from "../../../../components/store/pokemons";
 import s from "./Board.module.css";
 import { useState } from "react";
 import PlayerBoard from "./component/PlayerBoard/PlayerBoard";
 import { useDispatch, useSelector } from "react-redux";
 //import { selectPokemonsIsLoading } from "../../../../components/store/pokemons";
-import { selectedPokemons } from "../../../../components/store/pokemons";
+
 const counterWin = (board, player1, player2) => {
   let player1Count = player1.length;
   let player2Count = player2.length;
@@ -26,7 +30,7 @@ const counterWin = (board, player1, player2) => {
 };
 
 const BoardPage = () => {
-  const context = useContext(PokemonContext);
+  //const context = useContext(PokemonContext);
   const selectedPokemonsRedux = useSelector(selectedPokemons);
   const dispatch = useDispatch();
   //const pokemonsRedux = useSelector(selectPokemonsIsLoading);
@@ -51,6 +55,7 @@ const BoardPage = () => {
         "https://reactmarathon-api.netlify.app/api/board"
       );
       const boardRequest = await boardResponse.json();
+      setBoard(boardRequest.data);
 
       const player2Response = await fetch(
         "https://reactmarathon-api.netlify.app/api/create-player"
@@ -58,14 +63,16 @@ const BoardPage = () => {
       const player2Request = await player2Response.json();
 
       setPlayer2(() => {
-        return player2Request.data.map((item) => ({
+        const result = player2Request.data.map((item) => ({
           ...item,
           possession: "red",
         }));
+        dispatch(handleSetPlayer2(result));
+
+        return result;
       });
 
-      await context.pushPlayer2Pok(player2Request.data);
-      setBoard(boardRequest.data);
+      //await context.pushPlayer2Pok(player2Request.data);
     };
     fetchData();
   }, []);
@@ -120,20 +127,23 @@ const BoardPage = () => {
 
       if (count1 > count2) {
         alert("WIN");
-        context.setWinner("player1");
+        dispatch(handleSetWinner("player1"));
+        // context.setWinner("player1");
 
         history.replace("/game/finish");
       } else if (count2 > count1) {
         alert("LOSE");
-        context.setWinner("player2");
+        dispatch(handleSetWinner("player2"));
+        // context.setWinner("player2");
         history.replace("/game/finish");
       } else {
         alert("DRAW");
-        context.setWinner();
+        dispatch(handleSetWinner());
+        // context.setWinner();
         history.replace("/game/finish");
       }
     }
-  }, [steps, history]);
+  }, [steps]);
 
   return (
     <div className={s.root}>
