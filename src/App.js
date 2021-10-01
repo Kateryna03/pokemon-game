@@ -8,14 +8,12 @@ import AboutPage from "./routes/About/AboutPage";
 import NotFoundPage from "./routes/NotFound/NotFoundPage";
 import ContactPage from "./routes/Contact/ContactPage";
 import { FirebaseContext } from "./context/FirebaseContext";
-import {
-  NotificationContainer,
-  NatificationManager,
-} from "react-notifications";
+import { NotificationContainer } from "react-notifications";
 import "react-notifications/lib/notifications.css";
 import s from "./App.module.css";
 import cn from "classnames";
 import FirebaseClass from "./components/servise/firebase";
+import PrivateRoute from "./components/PrivateRoute/PrivateRoute";
 
 export default function App() {
   const location = useLocation();
@@ -38,12 +36,8 @@ export default function App() {
                   <HomePage />
                 </Route>
 
-                <Route path="/game">
-                  <GamePage />
-                </Route>
-                <Route path="/about">
-                  <AboutPage />
-                </Route>
+                <PrivateRoute path="/game" component={GamePage} />
+                <PrivateRoute path="/about" component={AboutPage} />
                 <Route path="/contact">
                   <ContactPage />
                 </Route>
