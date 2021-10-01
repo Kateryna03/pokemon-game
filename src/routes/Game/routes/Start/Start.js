@@ -1,41 +1,40 @@
 import { useHistory } from "react-router-dom";
-import { useState, useEffect, useContext } from "react";
-//import database from "../../components/servise/firebase";
+import { useState, useEffect } from "react";
 import Layout from "../../../../components/Layout/Layout";
 import PokemonCard from "../../../../components/PokemonCard/PokemonCard";
-//import POKEMONS from "../../../../components/PokemonCard/cards.json";
-import { FirebaseContext } from "../../../../context/FirebaseContext";
 import s from "./Game.module.css";
-import { PokemonContext } from "../../../../context/PokemonContext";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  getPokemonsAsync,
+  handleSelectedPokemons,
+  selectedPokemons,
+  selectPokemonsData,
+  selectPokemonsIsLoading,
+} from "../../../../components/store/pokemons";
 
 const StartPage = () => {
-  const firebase = useContext(FirebaseContext);
-  //console.log("Firebase", firebase);
-  const pokemonsContext = useContext(PokemonContext);
+  //const firebase = useContext(FirebaseContext);
+
   const history = useHistory();
   const [pokemons, setPokemons] = useState({});
+  const isLoading = useSelector(selectPokemonsIsLoading);
+  console.log("###loading", isLoading);
+  const pokemonsRedux = useSelector(selectPokemonsData);
+  const selectedPokemonsRedux = useSelector(selectedPokemons);
+  const dispatch = useDispatch();
+  console.log("#####:pokemonsRedux", pokemonsRedux);
 
   useEffect(() => {
-    firebase.getPokemonSocket((pokemons) => {
-      setPokemons(pokemons);
-    });
-
-    return () => {
-      firebase.offPokemonSocket();
-    };
+    // pokemonsContext.pushPlayer2Pok([]);
+    dispatch(getPokemonsAsync());
   }, []);
 
-  const handleChangeSelected = (key) => {
-    const pokemon = { ...pokemons[key] };
-    pokemonsContext.onSelectedPokemon(key, pokemon);
+  useEffect(() => {
+    setPokemons(pokemonsRedux);
+  }, [pokemonsRedux]);
 
-    setPokemons((prevState) => ({
-      ...prevState,
-      [key]: {
-        ...prevState[key],
-        selected: !prevState[key].selected,
-      },
-    }));
+  const handleChangeSelected = (key, pokemon) => {
+    dispatch(handleSelectedPokemons({ key, pokemon }));
   };
 
   const handleClick = () => {
@@ -44,16 +43,13 @@ const StartPage = () => {
 
   const handleStartGameClick = () => {
     history.push("/game/board");
-    //console.log("Go to START");
   };
-
+  console.log("Button", Object.keys(selectedPokemonsRedux).length < 5);
+  console.log("!!!selectedPokemonsRedux", selectedPokemonsRedux);
   return (
     <>
-      {/* <h1>THIS IS GAME PAGE!!!</h1> */}
-
       <Layout title="Game Page" colorBg="teal">
         <div
-          //   className={s.buttonWrap}
           style={{
             display: "flex",
             justifyContent: "center",
@@ -63,39 +59,39 @@ const StartPage = () => {
         >
           <button
             onClick={handleStartGameClick}
-            disabled={Object.keys(pokemonsContext.pokemon).length < 5}
+            disabled={Object.keys(selectedPokemonsRedux).length < 5}
           >
             Start GAME
           </button>
         </div>
 
         <div className={s.flex}>
-          {Object.entries(pokemons).map(
+          {Object.entries(pokemonsRedux).map(
             ([
               key,
-              { name, img, id, type, values, selected },
+              pokemon,
               // minimize,
               // className,
             ]) => (
               <PokemonCard
-                key={key}
-                name={name}
-                img={img}
-                id={id}
-                type={type}
-                values={values}
+                key={pokemon.key}
+                name={pokemon.name}
+                img={pokemon.img}
+                id={pokemon.id}
+                type={pokemon.type}
+                values={pokemon.values}
+                isSelected={pokemon.selected}
                 onChangeisActive={() => {
                   if (
-                    Object.keys(pokemonsContext.pokemon).length < 5 ||
-                    selected
+                    Object.keys(selectedPokemonsRedux).length < 5 ||
+                    pokemon.selected
                   ) {
-                    handleChangeSelected(key);
+                    handleChangeSelected(key, pokemon);
                   }
                 }}
                 isActive={true}
-                objID={key}
+                objID={pokemon.key}
                 minimize={false}
-                isSelected={selected}
                 className={s.card}
               />
             )

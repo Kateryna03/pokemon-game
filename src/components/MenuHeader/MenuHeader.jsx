@@ -3,7 +3,7 @@ import Menu from "../Menu/Menu";
 import NavBar from "../NavBar/NavBar";
 
 const MenuHeader = ({ bgActive }) => {
-  const [isActive, setActive] = useState(null);
+  const [isActive, setActive] = useState(false);
   //устанавливаю null vs false чтобы не было моргания при изменении стилей
 
   const handleClickButton = () => {

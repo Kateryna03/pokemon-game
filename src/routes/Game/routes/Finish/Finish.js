@@ -1,56 +1,53 @@
 import { useHistory } from "react-router-dom";
 import { useContext, useState } from "react";
 
-import { PokemonContext } from "../../../../context/PokemonContext";
-import { FirebaseContext } from "../../../../context/FirebaseContext";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  selectedPokemons,
+  selectPokemons2,
+  cleanPokemons,
+  winner,
+  handleSetWinner,
+} from "../../../../components/store/pokemons";
+
+import FirebaseClass from "../../../../components/servise/firebase";
 
 import PokemonCard from "../../../../components/PokemonCard/PokemonCard";
 
 import s from "./Finish.module.css";
-//import PlayerBoard from "../../routes/Board/component/PlayerBoard/PlayerBoard";
 
 const FinishPage = () => {
-  //const { pokemon } = useContext(PokemonContext);
-  // const { player1Pokemons, player2Pokemons, setPlayer2Pok, onClearContext } =
-  //useContext(PokemonContext);
-  const context = useContext(PokemonContext);
-  const firebase = useContext(FirebaseContext);
-  const [winner, setTheWinner] = useState({});
+  //const [winner, setTheWinner] = useState({});
   //const [choiseCard, setChoiseCard] = useState({});
 
-  //console.log("pokCONTEXT", pokemon);
+  const selectedPokemonsRedux = useSelector(selectedPokemons);
+  const selectedPokemons2Redux = useSelector(selectPokemons2);
+  const winnerRedux = useSelector(winner);
+  const [wonPokemon, setWonPokemon] = useState({});
+
   const history = useHistory();
-
-  //const isPlayer1Lost = player1Pokemons.length < context.player2Pokemons.length;
-
-  // const handleCardClick = (id) => {
-  //if (isPlayer1Lost) return;
-
-  //   const newState = [...context.player2Pokemons].map((item) => {
-  //     delete item.selected;
-  //     delete item.possession;
-  //     if (item.id === id) {
-  //       setChoiseCard(item);
-  //       return { ...item, selected: true };
-  //     }
-  //     return item;
-  //   });
-
-  //   setPlayer2Pok(newState);
-  // };
+  const dispatch = useDispatch();
 
   const handleClickEndButton = () => {
-    //await firebase.addPokemon(choiseCard);
-    //PokemonContext.clearContext()
-    history.replace("/game");
-    firebase.addPokemon(winner);
-    setTheWinner({});
-    context.onClearContext();
+    // history.replace("/game");
+    // FirebaseClass.addPokemon(winner);
+    // //dispatch(handleSetWinner());
+    // dispatch(cleanPokemons());
+
+    if (Object.keys(wonPokemon).length !== 0) {
+      FirebaseClass.addPokemon(wonPokemon);
+      setWonPokemon({});
+      dispatch(cleanPokemons());
+      history.replace("/game");
+    } else {
+      alert("Choose a pokemon!");
+    }
   };
+  //};
 
   const addWonPokemon = (item) => {
-    item.isSelected = !item.isSelected;
-    return setTheWinner({ ...item });
+    //item.isSelected = !item.isSelected;
+    return setWonPokemon({ ...item });
   };
 
   return (
@@ -58,14 +55,7 @@ const FinishPage = () => {
       <h1>Finish...</h1>
       <div className={s.root}>
         <div className={s.playerOne}>
-          {Object.values(context.pokemon).map((item) => (
-            // <div
-            //   className={cn(s.cardBoard, { [s.selected]: isSelected === item.id })}
-            //   onClick={() => {
-            //     setSelected(item.id);
-            //     onClickCard && onClickCard({ player, ...item });
-            //   }}
-            // >
+          {Object.values(selectedPokemonsRedux).map((item) => (
             <PokemonCard
               className={s.card}
               key={item.id}
@@ -77,7 +67,7 @@ const FinishPage = () => {
               possession={item.possession}
               minimize
               isActive
-              //isSelected={item.selected}
+              isSelected={item.selected}
             />
           ))}
         </div>
@@ -93,14 +83,7 @@ const FinishPage = () => {
         </div>
 
         <div className={s.playerTwo}>
-          {Object.values(context.player2Pokemons).map((item) => (
-            // <div
-            //   className={cn(s.cardBoard, { [s.selected]: isSelected === item.id })}
-            //   onClick={() => {
-            //     setSelected(item.id);
-            //     onClickCard && onClickCard({ player, ...item });
-            //   }}
-            // >
+          {Object.values(selectedPokemons2Redux).map((item) => (
             <PokemonCard
               className={s.card}
               key={item.id}
@@ -114,9 +97,10 @@ const FinishPage = () => {
               isSelected={item.selected}
               possession={item.possession}
               onClickCard={() => {
-                if (context.winner === "player1") {
+                if (winnerRedux === "player1") {
                   addWonPokemon(item);
-                  console.log(item.isSelected);
+
+                  //console.log(item.isSelected);
                 }
               }}
             />
