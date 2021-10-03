@@ -6,7 +6,7 @@ import LoginForm from "../LoginForm/LoginForm";
 import { NatificationManager, NotificationManager } from "react-notifications";
 const MenuHeader = ({ bgActive }) => {
   const [isActive, setActive] = useState(false);
-  const [isOpenModal, setIsOpenModal] = useState(false);
+  const [isOpenModal, setIsOpenModal] = useState(true);
   //устанавливаю null vs false чтобы не было моргания при изменении стилей
 
   const handleClickButtonHamburg = () => {
@@ -34,7 +34,6 @@ const MenuHeader = ({ bgActive }) => {
     if (response.hasOwnProperty("error")) {
       NotificationManager.error(response.error.message, "Wrong");
     } else {
-      localStorage.setItem("idToken", response.idToken);
       NotificationManager.success("Success message");
     }
   };

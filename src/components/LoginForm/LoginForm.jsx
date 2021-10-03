@@ -1,11 +1,8 @@
 import { useState } from "react";
-import s from "./LoginForm.module.css";
-import cn from "classnames";
 
 function LoginForm({ onSubmit }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [isAuth, setAuth] = useState(false);
 
   const handleChange = (e) => {
     setEmail(e.target.value);
@@ -25,10 +22,9 @@ function LoginForm({ onSubmit }) {
 
   return (
     <>
-      <form className={s.root} onSubmit={handleSubmit}>
-        <div className={s.root}>
+      <form onSubmit={handleSubmit}>
+        <div>
           <input
-            className={s.input}
             type="text"
             name="email"
             value={email}
@@ -36,22 +32,21 @@ function LoginForm({ onSubmit }) {
             id={email}
             required
           />
-          <span className={s.highlight}></span>
-          <span className={s.bar}></span>
-          <label className={s.label}>Email</label>
+          <span class="highlight"></span>
+          <span class="bar"></span>
+          <label class="label">Email</label>
         </div>
-        <div className={s.root}>
+        <div>
           <input
-            className={s.input}
-            type="password"
+            type="tel"
             name="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
           />
-          <span className={s.highlight}></span>
-          <span className={s.bar}></span>
-          <label className={s.label}>Password</label>
+          <span class="highlight"></span>
+          <span class="bar"></span>
+          <label class="label">Password</label>
         </div>
         <button
           onClick={() => {
@@ -59,7 +54,7 @@ function LoginForm({ onSubmit }) {
           }}
           type="submit"
         >
-          {isAuth ? "Sign In" : "Sign up"}
+          Login
         </button>
       </form>
     </>
