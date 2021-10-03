@@ -26,10 +26,8 @@ const MenuHeader = ({ bgActive }) => {
         returnSecureToken: true,
       }),
     };
-    const apiKey = process.env.REACT_APP_API_KEY;
-    console.log("KEY", apiKey);
     const response = await fetch(
-      `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${apiKey}`,
+      "https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyAn6AxHzZETX-VNHw_xIsnPY268d-RD4N8",
       requestOptions
     ).then((res) => res.json());
     console.log("Response", response);
