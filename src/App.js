@@ -8,7 +8,10 @@ import AboutPage from "./routes/About/AboutPage";
 import NotFoundPage from "./routes/NotFound/NotFoundPage";
 import ContactPage from "./routes/Contact/ContactPage";
 import { FirebaseContext } from "./context/FirebaseContext";
-import { NotificationContainer } from "react-notifications";
+import {
+  NotificationContainer,
+  NatificationManager,
+} from "react-notifications";
 import "react-notifications/lib/notifications.css";
 import s from "./App.module.css";
 import cn from "classnames";
