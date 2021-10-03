@@ -83,6 +83,24 @@
     animation: inputHighlighter 0.3s ease;
 }
 
+.flex {
+    display: flex;
+    align-items: center;
+    font-size: 18px;
+    justify-content: space-between;
+}
+
+.link {
+    color:#1426c2;
+    text-decoration: none;
+    font-size: 1.4rem;
+    transition: 200ms;
+    cursor: pointer;
+}
+.link:hover{
+    color: #f300b4;
+}
+
 @-webkit-keyframes inputHighlighter {
     from {
         background: #f300b4;

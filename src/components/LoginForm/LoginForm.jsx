@@ -1,8 +1,15 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import s from "./LoginForm.module.css";
 
-function LoginForm({ onSubmit }) {
+function LoginForm({ onSubmit, isResetField = false }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [isLogin, setLogin] = useState(true);
+
+  useEffect(() => {
+    setEmail("");
+    setPassword("");
+  }, [isResetField]);
 
   const handleChange = (e) => {
     setEmail(e.target.value);
@@ -10,7 +17,8 @@ function LoginForm({ onSubmit }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    onSubmit && onSubmit(email, password);
+    onSubmit &&
+      onSubmit({ type: isLogin ? "login" : "signup", email, password });
 
     reset();
   };
@@ -23,8 +31,9 @@ function LoginForm({ onSubmit }) {
   return (
     <>
       <form onSubmit={handleSubmit}>
-        <div>
+        <div className={s.root}>
           <input
+            className={s.input}
             type="text"
             name="email"
             value={email}
@@ -32,30 +41,36 @@ function LoginForm({ onSubmit }) {
             id={email}
             required
           />
-          <span class="highlight"></span>
-          <span class="bar"></span>
-          <label class="label">Email</label>
+          <span className={s.highlight}></span>
+          <span className={s.bar}></span>
+          <label className={s.label}>Email</label>
         </div>
-        <div>
+        <div className={s.root}>
           <input
-            type="tel"
+            className={s.input}
+            type="password"
             name="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
           />
-          <span class="highlight"></span>
-          <span class="bar"></span>
-          <label class="label">Password</label>
+          <span className={s.highlight}></span>
+          <span className={s.bar}></span>
+          <label className={s.label}>Password</label>
         </div>
-        <button
-          onClick={() => {
-            console.log("Login");
-          }}
-          type="submit"
-        >
-          Login
-        </button>
+        <div className={s.flex}>
+          <button
+            onClick={() => {
+              console.log("Login");
+            }}
+            type="submit"
+          >
+            {isLogin ? "Login" : "Signup"}
+          </button>
+          <div className={s.link} onClick={() => setLogin(!isLogin)}>
+            {isLogin ? "Register" : "Login"}
+          </div>
+        </div>
       </form>
     </>
   );
