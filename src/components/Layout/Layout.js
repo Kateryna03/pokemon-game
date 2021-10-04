@@ -9,7 +9,7 @@ function Layout({ id, title, urlBg = {}, colorBg = "", children }) {
           ? { backgroundColor: colorBg }
           : {
               backgroundImage: `url(${urlBg})`,
-              backgroundRepeat: "no-repeat",
+              //backgroundRepeat: "no-repeat",
               //backgroundPosition: "center",
               //backgroundSize: "cover",
             }

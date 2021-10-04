@@ -1,5 +1,5 @@
 import { useHistory } from "react-router-dom";
-import { useContext, useState } from "react";
+import { useState } from "react";
 
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -67,7 +67,7 @@ const FinishPage = () => {
               possession={item.possession}
               minimize
               isActive
-              isSelected={item.selected}
+              //isSelected={item.selected}
             />
           ))}
         </div>
