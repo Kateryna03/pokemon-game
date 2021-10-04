@@ -74,7 +74,7 @@ const StartPage = () => {
               // className,
             ]) => (
               <PokemonCard
-                key={pokemon.key}
+                key={key}
                 name={pokemon.name}
                 img={pokemon.img}
                 id={pokemon.id}

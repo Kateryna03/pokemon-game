@@ -1,5 +1,6 @@
 import firebase from "firebase/compat/app";
 import "firebase/compat/database";
+import { selectLocalId } from "../store/user";
 
 const firebaseConfig = {
   apiKey: "AIzaSyAn6AxHzZETX-VNHw_xIsnPY268d-RD4N8",
@@ -39,10 +40,10 @@ class Firebase {
     this.database.ref(`pokemons/${key}`).set(pokemon);
   };
 
-  addPokemon = (data, cb) => {
+  addPokemon = (data, localId, cb) => {
     const newKey = this.database.ref().child("pokemons").push().key;
     this.database
-      .ref("pokemons/" + newKey)
+      .ref(`${localId}/pokemons/` + newKey)
       .set(data)
       .then(() => cb && cb());
   };

@@ -38,14 +38,17 @@ const Modal = ({ title, children, onCloseModal, isOpen }) => {
   };
 
   return (
-    <div class={cn(s.root, { [s.open]: isOpen })} onClick={handleBackDropClick}>
+    <div
+      className={cn(s.root, { [s.open]: isOpen })}
+      onClick={handleBackDropClick}
+    >
       <div
-        class={s.modal}
+        className={s.modal}
         // ref={modalEl}
       >
-        <div class={s.head}>
+        <div className={s.head}>
           {title}
-          <span class={s.btnClose} onClick={handleModalClose}></span>
+          <span className={s.btnClose} onClick={handleModalClose}></span>
         </div>
         <div className={s.content}>{children}</div>
       </div>

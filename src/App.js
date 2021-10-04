@@ -1,5 +1,7 @@
 //import { useState } from "react";
 import { useLocation, Route, Switch, Redirect } from "react-router-dom";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import Footer from "./components/Footer/Footer";
 import MenuHeader from "./components/MenuHeader/MenuHeader";
 import GamePage from "./routes/Game";
@@ -7,6 +9,7 @@ import HomePage from "./routes/Home";
 import AboutPage from "./routes/About/AboutPage";
 import NotFoundPage from "./routes/NotFound/NotFoundPage";
 import ContactPage from "./routes/Contact/ContactPage";
+import LoginForm from "./components/LoginForm/LoginForm";
 import { FirebaseContext } from "./context/FirebaseContext";
 import {
   NotificationContainer,
@@ -17,13 +20,23 @@ import s from "./App.module.css";
 import cn from "classnames";
 import FirebaseClass from "./components/servise/firebase";
 import PrivateRoute from "./components/PrivateRoute/PrivateRoute";
+import { getUserAsync, selectUserLoading } from "./components/store/user";
+import NavBar from "./components/NavBar/NavBar";
 
 export default function App() {
+  const isUserLoading = useSelector(selectUserLoading);
   const location = useLocation();
   const isPadding =
     location.pathname === "/" || location.pathname === "/game/board";
-  // const match = useRouteMatch("/");
-  // console.log("match", match);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getUserAsync());
+  }, []);
+
+  if (isUserLoading) {
+    return "Loading....";
+  }
   return (
     <FirebaseContext.Provider value={FirebaseClass}>
       <Switch>
@@ -35,15 +48,13 @@ export default function App() {
             <MenuHeader bgActive={!isPadding} />
             <div className={cn(s.wrap, { [s.isHomePage]: isPadding })}>
               <Switch>
-                <Route path="/" exact>
-                  <HomePage />
-                </Route>
-
+                <Route path="/" exact component={HomePage} />
                 <PrivateRoute path="/game" component={GamePage} />
                 <PrivateRoute path="/about" component={AboutPage} />
                 <Route path="/contact">
                   <ContactPage />
                 </Route>
+                {/* <Route path="/login" component={LoginForm} /> */}
 
                 <Route render={() => <Redirect to="/404" />} />
               </Switch>
