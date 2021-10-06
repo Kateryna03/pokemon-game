@@ -11,6 +11,7 @@ export const slice = createSlice({
       isLoading: true,
     }),
     updateUser: (state, action) => ({
+      ...state,
       isLoading: false,
       data: action.payload,
     }),
