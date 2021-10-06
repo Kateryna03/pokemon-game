@@ -4,7 +4,8 @@ import NavBar from "../NavBar/NavBar";
 import Modal from "../Modal/Modal";
 import LoginForm from "../LoginForm/LoginForm";
 import { NotificationManager } from "react-notifications";
-
+import { useDispatch } from "react-redux";
+import { getUserAsync, getUserUpdateAsync } from "../store/user";
 const loginSignupUser = async ({ email, password, type }) => {
   console.log(email, password);
   const requestOptions = {
@@ -35,6 +36,7 @@ const loginSignupUser = async ({ email, password, type }) => {
 const MenuHeader = ({ bgActive }) => {
   const [isActive, setActive] = useState(false);
   const [isOpenModal, setIsOpenModal] = useState(false);
+  const dispatch = useDispatch();
   //устанавливаю null vs false чтобы не было моргания при изменении стилей
 
   const handleClickButtonHamburg = () => {
@@ -50,8 +52,25 @@ const MenuHeader = ({ bgActive }) => {
     if (response.hasOwnProperty("error")) {
       NotificationManager.error(response.error.message, "Wrong");
     } else {
+      if (props.type === "signup") {
+        const pokemonsStart = await fetch(
+          "https://reactmarathon-api.herokuapp.com/api/pokemons/starter"
+        ).then((res) => res.json());
+        console.log("pokemonsStart", pokemonsStart);
+
+        for (const item of pokemonsStart.data) {
+          await fetch(
+            `https://pokemon-game-e6401-default-rtdb.firebaseio.com/${response.localId}/pokemons.json?auth=${response.idToken}`,
+            {
+              method: "POST",
+              body: JSON.stringify(item),
+            }
+          );
+        }
+      }
       localStorage.setItem("idToken", response.idToken);
       NotificationManager.success("Success message");
+      dispatch(getUserUpdateAsync());
       handleClickLogin();
     }
   };

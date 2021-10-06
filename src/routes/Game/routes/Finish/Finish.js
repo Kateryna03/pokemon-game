@@ -1,13 +1,15 @@
 import { useHistory } from "react-router-dom";
 import { useState } from "react";
+//import { useSelector } from "react-redux";
+import { selectLocalId } from "../../../../components/store/user";
 
 import { useDispatch, useSelector } from "react-redux";
 import {
   selectedPokemons,
   selectPokemons2,
   cleanPokemons,
-  winner,
-  handleSetWinner,
+  winner as storeWinner,
+  //handleSetWinner,
 } from "../../../../components/store/pokemons";
 
 import FirebaseClass from "../../../../components/servise/firebase";
@@ -22,7 +24,10 @@ const FinishPage = () => {
 
   const selectedPokemonsRedux = useSelector(selectedPokemons);
   const selectedPokemons2Redux = useSelector(selectPokemons2);
-  const winnerRedux = useSelector(winner);
+
+  const localId = useSelector(selectLocalId);
+  console.log("#######LOCALID", localId);
+  const winnerRedux = useSelector(storeWinner);
   const [wonPokemon, setWonPokemon] = useState({});
 
   const history = useHistory();
@@ -34,16 +39,21 @@ const FinishPage = () => {
     // //dispatch(handleSetWinner());
     // dispatch(cleanPokemons());
 
+    // if (winnerRedux === "player1") {
     if (Object.keys(wonPokemon).length !== 0) {
-      FirebaseClass.addPokemon(wonPokemon);
-      setWonPokemon({});
+      //const localId = selectLocalId(getState());
+      FirebaseClass.addPokemon(wonPokemon, localId);
+      setWonPokemon({ wonPokemon });
       dispatch(cleanPokemons());
       history.replace("/game");
     } else {
       alert("Choose a pokemon!");
     }
+    // } else {
+    //   dispatch(cleanPokemons());
+    //   history.replace("/game");
+    // }
   };
-  //};
 
   const addWonPokemon = (item) => {
     //item.isSelected = !item.isSelected;
@@ -75,7 +85,7 @@ const FinishPage = () => {
         <div>
           <button
             className={s.button}
-            type="button"
+            //type="button"
             onClick={handleClickEndButton}
           >
             END GAME
