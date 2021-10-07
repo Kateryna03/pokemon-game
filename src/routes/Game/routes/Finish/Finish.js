@@ -39,20 +39,21 @@ const FinishPage = () => {
     // //dispatch(handleSetWinner());
     // dispatch(cleanPokemons());
 
-    // if (winnerRedux === "player1") {
-    if (Object.keys(wonPokemon).length !== 0) {
-      //const localId = selectLocalId(getState());
-      FirebaseClass.addPokemon(wonPokemon, localId);
-      setWonPokemon({ wonPokemon });
+    if (winnerRedux === "player1") {
+      if (Object.keys(wonPokemon).length !== 0) {
+        //   //const localId = selectLocalId(getState());
+        FirebaseClass.addPokemon(wonPokemon, localId);
+        setWonPokemon({ wonPokemon });
+        dispatch(cleanPokemons());
+        history.replace("/game");
+      } else {
+        alert("Choose a pokemon!");
+      }
+      //}
+    } else {
       dispatch(cleanPokemons());
       history.replace("/game");
-    } else {
-      alert("Choose a pokemon!");
     }
-    // } else {
-    //   dispatch(cleanPokemons());
-    //   history.replace("/game");
-    // }
   };
 
   const addWonPokemon = (item) => {
@@ -77,7 +78,7 @@ const FinishPage = () => {
               possession={item.possession}
               minimize
               isActive
-              //isSelected={item.selected}
+              isSelected={item.selected}
             />
           ))}
         </div>
@@ -85,7 +86,7 @@ const FinishPage = () => {
         <div>
           <button
             className={s.button}
-            //type="button"
+            type="button"
             onClick={handleClickEndButton}
           >
             END GAME
@@ -110,8 +111,19 @@ const FinishPage = () => {
                 if (winnerRedux === "player1") {
                   addWonPokemon(item);
 
-                  //console.log(item.isSelected);
+                  //if (Object.keys(wonPokemon).length !== 0) {
+                  //const localId = selectLocalId(getState());
+                  //FirebaseClass.addPokemon(wonPokemon, localId);
+                  //setWonPokemon({ wonPokemon });
+                  //dispatch(cleanPokemons());
+                  //history.replace("/game");
+                  //}
+                  //else {
+                  // alert("Choose a pokemon!");
                 }
+
+                //console.log(item.isSelected);
+                //}
               }}
             />
           ))}

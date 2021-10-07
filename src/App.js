@@ -9,7 +9,7 @@ import HomePage from "./routes/Home";
 import AboutPage from "./routes/About/AboutPage";
 import NotFoundPage from "./routes/NotFound/NotFoundPage";
 import ContactPage from "./routes/Contact/ContactPage";
-import LoginForm from "./components/LoginForm/LoginForm";
+import UserPage from "./routes/Login/Login";
 import { FirebaseContext } from "./context/FirebaseContext";
 import {
   NotificationContainer,
@@ -54,7 +54,7 @@ export default function App() {
                 <Route path="/contact">
                   <ContactPage />
                 </Route>
-                {/* <Route path="/login" component={LoginForm} /> */}
+                <PrivateRoute path="/login" component={UserPage} />
 
                 <Route render={() => <Redirect to="/404" />} />
               </Switch>
