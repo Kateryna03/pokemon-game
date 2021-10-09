@@ -64,8 +64,8 @@ const StartPage = () => {
   const handleStartGameClick = () => {
     history.push("/game/board");
   };
-  console.log("Button", Object.keys(selectedPokemonsRedux).length < 5);
-  console.log("!!!selectedPokemonsRedux", selectedPokemonsRedux);
+  //console.log("Button", Object.keys(selectedPokemonsRedux).length < 5);
+  //console.log("!!!selectedPokemonsRedux", selectedPokemonsRedux);
   return (
     <>
       <Layout title="Game Page" colorBg="teal">

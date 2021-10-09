@@ -1,6 +1,6 @@
 import { useHistory } from "react-router";
-import { useContext, useEffect } from "react";
-import { PokemonContext } from "../../../../context/PokemonContext";
+import { useEffect } from "react";
+//import { PokemonContext } from "../../../../context/PokemonContext";
 import PokemonCard from "../../../../components/PokemonCard/PokemonCard";
 import {
   handleSetPlayer2,
@@ -20,11 +20,11 @@ const counterWin = (board, player1, player2) => {
   let player2Count = player2.length;
 
   board.forEach((item) => {
-    if (item.possession === "red") {
+    if (item.card.possession === "red") {
       player2Count++;
     }
 
-    if (item.possession === "blue") {
+    if (item.card.possession === "blue") {
       player1Count++;
     }
   });
@@ -230,25 +230,26 @@ const BoardPage = () => {
         alert("WIN");
         //setTypeResult("WIN");
         //dispatch(handleSetWinner("player1"));
-        dispatch(handleSetWinner("WIN"));
+        dispatch(handleSetWinner("player1"));
         // context.setWinner("player1");
 
         history.replace("/game/finish");
-      } else if (count1 < count2) {
+      } else if (count2 > count1) {
         alert("LOSE");
         //setTypeResult("LOSE");
-        dispatch(handleSetWinner("LOSE"));
+        dispatch(handleSetWinner("player2"));
         //dispatch(handleSetWinner("player2"));
 
         history.replace("/game/finish");
       } else {
         alert("DRAW");
         //setTypeResult("DRAW");
-        dispatch(handleSetWinner("DRAW"));
+        dispatch(handleSetWinner());
         // context.setWinner();
         history.replace("/game/finish");
       }
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [steps, board, player2, player1]);
 
   return (
