@@ -6,7 +6,7 @@ import { selectLocalId } from "../../../../components/store/user";
 import { useDispatch, useSelector } from "react-redux";
 import {
   selectedPokemons,
-  selectPokemons2,
+  selectedPokemons2,
   cleanPokemons,
   winner as storeWinner,
   //handleSetWinner,
@@ -23,7 +23,7 @@ const FinishPage = () => {
   //const [choiseCard, setChoiseCard] = useState({});
 
   const selectedPokemonsRedux = useSelector(selectedPokemons);
-  const selectedPokemons2Redux = useSelector(selectPokemons2);
+  const selectedPokemons2Redux = useSelector(selectedPokemons2);
 
   const localId = useSelector(selectLocalId);
   console.log("#######LOCALID", localId);

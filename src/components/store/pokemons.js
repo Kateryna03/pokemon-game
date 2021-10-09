@@ -10,9 +10,15 @@ export const slice = createSlice({
     error: null,
     selectedPokemons: {},
     selectedPokemons2: {},
+    myPokemons: {},
     winner: null,
   },
   reducers: {
+    setMyPokemons: (state, action) => ({
+      ...state,
+      myPokemons: action.payload,
+    }),
+
     fetchPokemons: (state) => ({
       ...state,
       isLoading: true,
@@ -47,7 +53,7 @@ export const slice = createSlice({
       //}
     },
     handleSetPlayer2: (state, action) => {
-      console.log(state);
+      //console.log(state);
       return {
         ...state,
         selectedPokemons2: {
@@ -81,12 +87,13 @@ export const {
   handleSetPlayer2,
   handleSetWinner,
   cleanPokemons,
+  setMyPokemons,
 } = slice.actions;
-
+export const selectMyPokemons = (state) => state.pokemons.myPokemons;
 export const selectPokemonsIsLoading = (state) => state.pokemons.isLoading;
 
 export const selectPokemonsData = (state) => state.pokemons.data;
-export const selectPokemons2 = (state) => state.pokemons.selectedPokemons2;
+export const selectedPokemons2 = (state) => state.pokemons.selectedPokemons2;
 
 export const selectedPokemons = (state) => state.pokemons.selectedPokemons;
 

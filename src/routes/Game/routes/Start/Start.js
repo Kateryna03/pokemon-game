@@ -8,25 +8,45 @@ import {
   getPokemonsAsync,
   handleSelectedPokemons,
   selectedPokemons,
+  selectedPokemons2,
+  winner,
   selectPokemonsData,
   selectPokemonsIsLoading,
+  handleSetWinner,
+  handleSetPlayer2,
+  setMyPokemons,
 } from "../../../../components/store/pokemons";
 
-const StartPage = () => {
-  //const firebase = useContext(FirebaseContext);
+const selectedPokemonsUtils = (selectedPokemons, key, pokemon) => {
+  if (selectedPokemons[key]) {
+    const copyState = { ...selectedPokemons };
+    delete copyState[key];
+    return copyState;
+  }
+  return {
+    ...selectedPokemons,
+    [key]: pokemon,
+  };
+};
 
+const StartPage = () => {
   const history = useHistory();
+  const dispatch = useDispatch();
+
   const [pokemons, setPokemons] = useState({});
   const isLoading = useSelector(selectPokemonsIsLoading);
-  console.log("###loading", isLoading);
+  //console.log("###loading", isLoading);
   const pokemonsRedux = useSelector(selectPokemonsData);
   const selectedPokemonsRedux = useSelector(selectedPokemons);
-  const dispatch = useDispatch();
-  console.log("#####:pokemonsRedux", pokemonsRedux);
+
+  //console.log("#####:pokemonsRedux", pokemonsRedux);
 
   useEffect(() => {
-    // pokemonsContext.pushPlayer2Pok([]);
     dispatch(getPokemonsAsync());
+    // 12-hw
+    dispatch(setMyPokemons({}));
+    dispatch(handleSetPlayer2({}));
+    dispatch(handleSetWinner(null));
   }, []);
 
   useEffect(() => {
